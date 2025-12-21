@@ -1,43 +1,18 @@
 #include <mod/amlmod.h>
 #include <mod/logger.h>
-#include <mod/config.h>
 
-MYMODCFG(net.rusjj.mymod.guid, AML Mod Template, 1.0, RusJJ)
+// I-declare ang iyong Mod
+MYMOD(com.zamzam.realistic_traffic, Realistic AI Traffic, 1.0, zamzamshi123)
 
-//MYMOD(net.rusjj.mymod.guid, AML Mod Template Without Config, 1.0, RusJJ)
-
-//NEEDGAME(net.rusjj.mygame)
-
-//BEGIN_DEPLIST()
-//    ADD_DEPENDENCY_VER(net.rusjj.aml, 1.0)
-//END_DEPLIST()
-
-uintptr_t pGameLibrary = 0;
-ConfigEntry* pCfgMyBestEntry;
-
+// Dito natin ilalagay ang address ng "DriveToPoint" function ng GTA SA
+// para ma-adjust ang steering nila kapag may harang.
 extern "C" void OnModLoad()
 {
-    logger->SetTag("Mod Template");
+    logger->Info("Realistic Traffic Mod: Initializing...");
     
-    pGameLibrary = aml->GetLib("libMyGame.so");
-    if(pGameLibrary)
-    {
-        logger->Info("MyGame mod is loaded!");
-    }
-    else
-    {
-        logger->Error("MyGame mod is not loaded :(");
-        return; // Do not load our mod?
-    }
-
-    pCfgMyBestEntry = cfg->Bind("mySetting", "DefaultValue is 0?", "MyUniqueSection");
-    pCfgMyBestEntry->SetString("DefaultValue is unchanged");
-    pCfgMyBestEntry->SetInt(1);
-    pCfgMyBestEntry->Reset();
-    delete pCfgMyBestEntry; // Clean-up memory
+    // Ang logic dito ay tataas ang 'Detection Range' ng mga sasakyan
+    // para mas maaga silang pumreno o lumiko kapag may nakita sa harap.
     
-    bool bEnabled = cfg->Bind("Enable", true)->GetBool();
-    delete Config::pLastEntry; // Clean-up of the latest ConfigEntry*
-    
-    cfg->Save(); // Will only save if something was changed
+    logger->Info("Realistic Traffic Mod: Done Loading!");
 }
+
